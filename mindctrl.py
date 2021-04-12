@@ -1,6 +1,7 @@
 '''
 MindControl v1.3
-
+Part of Stormpack
+                                               
 Requires PySerial (as the Bluetooth is used only as a transmitter for
 standard serial port profiles). You can simply install it using:
 pip install pyserial
@@ -15,7 +16,7 @@ by using MindControl or any of its derivatives. For any
 unclarities, Apache License 2.0 applies.
 
 Thanks to Thiago Marzagao for providing ev3py, the spiritual
-predecessor of MindControl! :)
+predecessor of MindControl! :) 
 
 And visit KOCKICE, www.kockice.hr, the underlying LUG
 
@@ -43,16 +44,13 @@ betweendelay = 0  # Delay between movements (in seconds)
 
 # Pack values into bytes (EV3-specific)
 
-
 def pack1b(value):  # One direct byte constant (LC0)
     return bytes((round(value),))  # Float-safe
-
 
 def pack2b(value):  # Two-byte constant (LC1)
     b1 = 129
     b2 = round(value) & 255  # Float-safe
     return bytes((b1, b2))
-
 
 def pack3b(value):  # Three-byte constant (LC2)
     value = round(value)  # Float-safe
@@ -60,7 +58,6 @@ def pack3b(value):  # Three-byte constant (LC2)
     b2 = value & 255
     b3 = (value >> 8) & 255
     return bytes((b1, b2, b3))
-
 
 def pack5b(value):  # Five-byte constant (LC4)
     value = round(value)  # Float-safe
@@ -72,29 +69,24 @@ def pack5b(value):  # Five-byte constant (LC4)
     return bytes((b1, b2, b3, b4, b5))
 
 # Logging stuff
-
-
 def addlog(logline):
     if logtoconsole: print(logline)
     if logtofile:
         logline = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S, ') + \
-            str(logline)
-        logfile = open('mindctrl.log', 'a', encoding='utf8')
+                  str(logline)
+        logfile = open('mindctrl.log', 'a', encoding = 'utf8')
         logfile.write(logline + '\n')
         logfile.close()
 
 # Delay between movements
-
-
 def delaymove():
     if betweendelay > 0:
         addlog('Delay: ' + str(betweendelay))
         time.sleep(betweendelay)
 
-
 # Color catalog for the EV3 color-mode (mode 2) detection
-ev3colorsensor = {0: 'NONE', 1: 'BLACK', 2: 'BLUE', 3: 'GREEN',
-                  4: 'YELLOW', 5: 'RED', 6: 'WHITE', 7: 'BROWN'}
+ev3colorsensor = {0: 'NONE', 1: 'BLACK', 2:'BLUE', 3:'GREEN', \
+                  4:'YELLOW', 5:'RED', 6:'WHITE', 7:'BROWN'}
 
 
 # User functions
@@ -126,12 +118,12 @@ def getstepper(*lists):
         end = lists[0]
 
     # Resize start according to end
-    start = [val if val is not None else 0 for val in start]
+    start = [val if val != None else 0 for val in start]
     start = start[0:len(end)]
     start = start + [0] * (len(end) - len(start))
 
     # Normalize end
-    end = [val if val is not None else 0 for val in end]
+    end = [val if val != None else 0 for val in end]
 
     # Get precalculating
     motors = len(end)
@@ -166,8 +158,8 @@ def melody(notes):
 
     # Set some defaults and constants
     names = ['c#', 'c', 'd#', 'd', 'e', 'f#', 'f', 'g#', 'g', 'a', 'b', 'h']
-    volumes = {'PPP': 12, 'PP': 24, 'P': 37, 'MP': 50,
-               'MF': 62, 'F': 75, 'FF': 87, 'FFF': 100}
+    volumes = {'PPP':12, 'PP':24, 'P':37, 'MP':50,
+             'MF':62, 'F':75, 'FF':87, 'FFF':100}
     halftone = 2 ** (1 / 12)
     volume = 50  # Mezzoforte (MF)
     tempo = 120  # Standard tempo is 120 BPM
@@ -243,22 +235,22 @@ def melody(notes):
 class EV3:
 
     # Establish a connection
-    def __init__(self, conn='COM8', baudrate=28800, timeout=15):
+    def __init__(self, conn = 'COM8', baudrate = 28800, timeout = 15):
         import serial
         addlog('Opening EV3 port...')
-        if conn!='TEST':
-            self.port = serial.Serial(conn, baudrate, timeout=timeout)  # Open at 28800 baud
+        self.port = serial.Serial(conn, baudrate, timeout = timeout)  # Open at 28800 baud
         addlog('EV3 Port open')
 
         # Set variables
         self.relposition = [0, 0, 0, 0]  # Positions for relative moves
         self.relscale = [1, 1, 1, 1]  # Relative move scale (default 1: direct)
 
-    # Close a connection (clean end)
 
+    # Close a connection (clean end)
     def disconnect(self):
         self.port.close()
         addlog('EV3 Port closed')
+
 
     # This is the 'main' rotation instruction.
     # Rotate multiple motors, under given speed (percent), each motor with its
@@ -274,10 +266,9 @@ class EV3:
     # simult: Boolean, whether to turn all at once (True) or sequentially (False)
     # Motors that are not specified at the end can be skipped. Those that need
     # to be ignored before others, have to have None or 0 passed as angles.
-
-    def rotate(self, *motors, speed=100, simult=False):
-        addlog('EV3 Rotate Abs - Spd:' + str(speed) + ' Simult:' + str(simult) +
-               ' Angs:' + ','.join([str(val) for val in motors]))
+    def rotate(self, *motors, speed = 100, simult = False):
+        addlog('EV3 Rotate Abs - Spd:' + str(speed) + ' Simult:' + str(simult) + \
+                ' Angs:' + ','.join([str(val) for val in motors]))
 
         # Parse motor data
         if len(motors) > 4:
@@ -288,7 +279,7 @@ class EV3:
         # Normalize input matrix
         motors = list(motors)
         for entry in range(len(motors)):
-            if motors[entry] is None: motors[entry] = 0
+            if motors[entry] == None: motors[entry] = 0
         motors = motors + [0] * (4 - len(motors))  # Normalize to 4 values
 
         if simult:
@@ -320,23 +311,23 @@ class EV3:
                 if move[1] < 0:
                     # Reverse
                     polarity = bytes((167, 0)) + \
-                        move[0] + \
-                        bytes((63,))
+                    move[0] + \
+                    bytes((63,))
                 else:
                     # Forward
                     polarity = bytes((167, 0)) + \
-                        move[0] + \
-                        bytes((1,))
+                    move[0] + \
+                    bytes((1,))
                 body += polarity
 
                 # Instruction, brick, motors, speed, rampup, hold, rampdown, brake afterwards
                 movement = bytes((174, 0)) + \
-                    move[0] +  \
-                    pack2b(move[2]) +  \
-                    pack5b(0) + \
-                    pack5b(move[1]) + \
-                    pack5b(0) +  \
-                    bytes((1,))
+                           move[0] + \
+                           pack2b(move[2]) + \
+                           pack5b(0) + \
+                           pack5b(move[1]) + \
+                           pack5b(0) + \
+                           bytes((1,))
                 body += movement
 
             # Wait for completion
@@ -364,22 +355,22 @@ class EV3:
                 if motor[1] < 0:
                     # Reverse
                     polarity = bytes((167, 0)) + \
-                        motorhex + \
-                        bytes((63,))
+                    motorhex + \
+                    bytes((63,))
                 else:
                     # Forward
                     polarity = bytes((167, 0)) + \
-                        motorhex + \
-                        bytes((1,))
+                    motorhex + \
+                    bytes((1,))
 
                 # Instruction, brick, motors, speed, rampup, hold, rampdown, brake afterwards
                 body = bytes((174, 0)) + \
-                    motorhex + \
-                    pack2b(speed) + \
-                    pack5b(0) + \
-                    pack5b(motor[1]) + \
-                    pack5b(0) + \
-                    bytes((1,))
+                       motorhex + \
+                       pack2b(speed) + \
+                       pack5b(0) + \
+                       pack5b(motor[1]) + \
+                       pack5b(0) + \
+                       bytes((1,))
 
                 # Send to begin rotating (not strictly necessary, but proper)
                 start = bytes((166, 0)) + motorhex
@@ -394,13 +385,13 @@ class EV3:
                 # Replied - movement finished. Delay if required
                 delaymove()
 
+
     # Move four motors to specified relative positions - get their desired
     # positions and the desired speed. They all turn at the same time, i.e.
     # utilize the rotate function. Format is for each motor sequentially:
     # rotateto(mot1,mot2,mot3,mot4,speed=100)
-
-    def rotateto(self, *relpos, speed=100, simult=False):
-        addlog('EV3 Rotate Rel - Spd:' + str(speed) + ' Simult:' + str(simult) +
+    def rotateto(self, *relpos, speed = 100, simult = False):
+        addlog('EV3 Rotate Rel - Spd:' + str(speed) + ' Simult:' + str(simult) + \
                ' Pos:' + ','.join([str(val) for val in relpos]))
 
         # Parse motor data
@@ -417,7 +408,7 @@ class EV3:
 
         # Iterate through all four motors
         for motor in enumerate(relpos):
-            if motor[1] is None:
+            if motor[1] == None:
                 deltas.append(0)  # Nothing to do
                 continue
 
@@ -428,14 +419,14 @@ class EV3:
             self.relposition[motor[0]] = motor[1]  # Update relative position
 
         # Perform the actual rotations
-        self.rotate(*deltas, speed=speed, simult=simult)
+        self.rotate(*deltas, speed = speed, simult = simult)
+
 
     # Start rotating the motors, without a specified duration or degrees,
     # just keep them running. Supply just the speed for each of the motors,
     # optional, with None supplied where nothing is to be changed. Zero can
     # be supplied to stop a motor or more of them, though that employs a
     # different instruction than the one for spinning (a special case).
-
     def spin(self, *speeds):
         addlog('EV3 Spin:' + ','.join([str(val) for val in speeds]))
 
@@ -452,7 +443,7 @@ class EV3:
         message = bytes((0, 0, 0, 0, 0))  # Message byte aggregator
         # Iterate through all the motors
         for motor in enumerate(speeds):
-            if motor[1] is None: continue  # Nothing to do
+            if motor[1] == None: continue  # Nothing to do
 
             # Value was specified - something to do
             if motor[1] == 0:
@@ -472,15 +463,15 @@ class EV3:
         # Send aggregated message
         self.send(message)
 
-    # Stop all motors, probably started by spin
 
+    # Stop all motors, probably started by spin
     def stop(self):
         addlog('EV3 Stop')
         self.spin(0, 0, 0, 0)
 
+
     # Send message to the EV3. Mostly to be used internally, though manual bytes
     # can be supplied as well
-
     def send(self, message):
         # Calculate length (which does not count itself)
         msglen = bytes((len(message) % 256, len(message) // 256))  # LSB first
@@ -501,11 +492,11 @@ class EV3:
             addlog('EV3 ERROR: Port is not open (command cancelled)')
             return None  # Error a priori
 
+
     # Universal sensor instruction, i.e. independent from sensor type or mode.
     # Get the sensor numerical value from the given port (ranging from 1 to 4),
     # therefore used as sensor(1). Running in sensor-default mode, i.e. without
     # any mode changes
-
     def sensor(self, portnum):
         addlog('EV3 Sensor ' + str(portnum))
 
@@ -520,6 +511,7 @@ class EV3:
         # Unpack bytes
         return struct.unpack('f', reply[3:7])[0]
 
+
     # Specific instruction for EV3 color/light sensor which works in multiple
     # modes. Specify a port number being used (1-4) and the desired mode:
     # 0 (or 'reflect'): measuring amount of reflected light
@@ -527,12 +519,11 @@ class EV3:
     # 2 (or 'colors'): detecting a color (if any) under the sensor
     # In mode 0 and 1, returns a number 0-100 (light percentage)
     # In mode 2, returns a detected color number and its name
-
     def sensor_light(self, portnum, mode):
         addlog('EV3 Color/Light Port:' + str(portnum) + ' Mode:' + str(mode))
 
         # Check mode (if a string instead of a number)
-        if isinstance(mode, str):
+        if type(mode) == str:
             mode = mode.upper()
             if mode.startswith('REFLECT'): mode = 0
             if mode.startswith('AMBIENT'): mode = 1
@@ -551,13 +542,13 @@ class EV3:
 
         return reply
 
+
     # Play a sound of a specified frequency, volume and duration.
     # Frequency is in Hz, volume in percentage (1-100) and duration in
     # milliseconds. Control is passed back only after the tone is
     # fully played.
-
-    def tone(self, frequency=440, volume=50, duration=200):
-        addlog('EV3 Sound Frequency:' + str(frequency) + 'Hz Volume:' +
+    def tone(self, frequency = 440, volume = 50, duration = 200):
+        addlog('EV3 Sound Frequency:' + str(frequency) + 'Hz Volume:' + \
                str(volume) + '% Duration:' + str(duration) + 'ms')
 
         # Construct a message
@@ -569,14 +560,14 @@ class EV3:
 
         self.send(message)
 
-    # Selftest the EV3 (rotate all motors)
 
+    # Selftest the EV3 (rotate all motors)
     def selftest():
         addlog('EV3 Self-test started')
         # Rotate all forward and reverse
-        self.rotate(90, 180, 270, 360, speed=75, simult=False)
-        self.rotate(-450, -450, -450, -450, speed=50, simult=True)
-        self.rotate(360, 270, 180, 90, speed=100, simult=False)
+        self.rotate(90, 180, 270, 360, speed = 75, simult = False)
+        self.rotate(-450, -450, -450, -450, speed = 50, simult = True)
+        self.rotate(360, 270, 180, 90, speed = 100, simult = False)
         addlog('EV3 Self-test complete')
 
 
@@ -586,22 +577,22 @@ class EV3:
 class NXT:
 
     # Establish a connection
-    def __init__(self, conn='COM4', baudrate=28800, timeout=15):
+    def __init__(self, conn = 'COM4', baudrate = 28800, timeout = 15):
         import serial
         addlog('Opening NXT port...')
-        self.port = serial.Serial(conn, baudrate, timeout=timeout,
-                                  parity=serial.PARITY_EVEN)  # Open at 28800 baud
+        self.port = serial.Serial(conn, baudrate, timeout = timeout,
+                                  parity = serial.PARITY_EVEN)  # Open at 28800 baud
         addlog('NXT Port open')
 
         # Set variables
         self.relposition = [0, 0, 0]  # Positions for relative moves
         self.relscale = [1, 1, 1]  # Relative move scale (default 1: direct)
 
+
     # Start the Mind Control program on the NXT device (if not started)
     # Note that it takes the bytes as the input parameter, and it can be optionally
     # set not to take a 1-second safe delay after starting the program
-
-    def start(self, rxe=b'MindCtrl.rxe', delay=True):
+    def start(self, rxe = b'MindCtrl.rxe', delay = True):
         addlog('Starting MindCtrl.rxe on NXT device')
 
         # Construct a message
@@ -613,20 +604,20 @@ class NXT:
         # One-second delay to allow the RXE to start
         if delay: time.sleep(1)
 
-    # Close a connection (clean end)
 
+    # Close a connection (clean end)
     def disconnect(self):
         self.port.close()
         addlog('NXT Port closed')
+
 
     # Main rotate function. Supply an angle (positive or negative) for each motor or
     # keep zero (or None) for no movement. They are executed in order A-C (1-3).
     # Supplied speed applies to all motors - if various speeds are required, multiple
     # function calls are required.
-
-    def rotate(self, *motors, speed=100):
-        addlog('NXT Rotate Abs - Spd:' + str(speed) +
-               ' Angs:' + ','.join([str(val) for val in motors]))
+    def rotate(self, *motors, speed = 100):
+        addlog('NXT Rotate Abs - Spd:' + str(speed) + \
+                ' Angs:' + ','.join([str(val) for val in motors]))
 
         # Parse motor data
         if len(motors) > 3:
@@ -637,7 +628,7 @@ class NXT:
         # Normalize input matrix
         motors = list(motors)
         for entry in range(len(motors)):
-            if motors[entry] is None: motors[entry] = 0
+            if motors[entry] == None: motors[entry] = 0
         motors = motors + [0] * (4 - len(motors))  # Normalize to 4 values
 
         # Iterate over all motors independently
@@ -672,7 +663,7 @@ class NXT:
 
                 # Check if rejected
                 if reply[0:3] == bytes((2, 19, 236)):
-                    addlog('NXT ERROR: MindCtrl not started on the device:' +
+                    addlog('NXT ERROR: MindCtrl not started on the device:' + \
                            ','.join([str(e) for e in list(reply) if e]))
                     return None  # Error a priori
 
@@ -684,12 +675,12 @@ class NXT:
             # Replied - movement finished. Delay if required
             delaymove()
 
+
     # Move three motors to specified relative positions - get their desired
     # positions and the desired speed. They all turn sequentially. Usage:
     # rotateto(mot1,mot2,mot3,speed=100)
-
-    def rotateto(self, *relpos, speed=100):
-        addlog('NXT Rotate Rel - Spd:' + str(speed) +
+    def rotateto(self, *relpos, speed = 100):
+        addlog('NXT Rotate Rel - Spd:' + str(speed) + \
                ' Pos:' + ','.join([str(val) for val in relpos]))
 
         # Parse motor data
@@ -706,7 +697,7 @@ class NXT:
 
         # Iterate through all four motors
         for motor in enumerate(relpos):
-            if motor[1] is None:
+            if motor[1] == None:
                 deltas.append(0)  # Nothing to do
                 continue
 
@@ -717,37 +708,35 @@ class NXT:
             self.relposition[motor[0]] = motor[1]  # Update relative position
 
         # Perform the actual rotations
-        self.rotate(*deltas, speed=speed)
+        self.rotate(*deltas, speed = speed)
+
 
     # Selftest the NXT (rotate all motors)
-
     def selftest():
         addlog('NXT Self-test started')
         # Rotate all forward and reverse
-        self.rotate(90, 180, 270, speed=75)
-        self.rotate(-450, -450, -450, speed=50)
-        self.rotate(360, 270, 180, speed=100)
+        self.rotate(90, 180, 270, speed = 75)
+        self.rotate(-450, -450, -450, speed = 50)
+        self.rotate(360, 270, 180, speed = 100)
         addlog('EV3 Self-test completed')
 
 
 # Self-test if started as a __main__
 if __name__ == '__main__':
-    print(list(pack2b(75)))
-    print(list(pack5b(540)))
 
-    ev3device = EV3('TEST')
+
+
+    ev3device = EV3('COM8')
 
     # ev3device.rotate(None, None, 45)
-
-    ev3device.rotate(None, 540, speed=75)
 
     # gfx
     # screen is 178x128 px
     '''0 background, 1 foreground color'''
-    # ev3device.send(bytes([0, 0, 0, 0, 0,
-    #                 132, 9, 1,
-    #                 129, 10, 129, 10, 129, 60, 129, 70]))  # Draw
-    # # ev3device.send((0,0,0,0,0,132,0)) # Refresh
+    ev3device.send(bytes([0, 0, 0, 0, 0,
+                    132, 9, 1,
+                    129, 10, 129, 10, 129, 60, 129, 70]))  # Draw
+    # ev3device.send((0,0,0,0,0,132,0)) # Refresh
 
     # for posit in getstepper([-180, -90]):
     #    ev3device.rotateto(posit[0], posit[1], simult = True, speed = 50)
