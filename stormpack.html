@@ -1,0 +1,832 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.2.4.2 (Windows)"/>
+	<meta name="created" content="2009-04-16T11:32:02.640000000"/>
+	<meta name="changed" content="2017-04-26T19:25:40.573000000"/>
+	<meta name="Info 1" content=""/>
+	<meta name="Info 2" content=""/>
+	<meta name="Info 3" content=""/>
+	<meta name="Info 4" content=""/>
+	<style type="text/css">
+		@page { margin: 0.79in }
+		p { margin-bottom: 0.08in; so-language: zxx }
+		h1 { margin-bottom: 0.08in }
+		h1.western { font-family: "Arial", sans-serif; font-size: 18pt; so-language: zxx }
+		h1.cjk { font-family: "Andale Sans UI"; font-size: 18pt; so-language: zxx }
+		h1.ctl { font-family: "Tahoma"; font-size: 18pt; so-language: zxx }
+		h2.western { font-family: "Arial", sans-serif; font-size: 16pt; so-language: zxx }
+		h2.cjk { font-family: "Andale Sans UI"; font-size: 16pt; so-language: zxx }
+		h2.ctl { font-size: 16pt; so-language: zxx }
+	</style>
+</head>
+<body lang="en-US" dir="ltr" background="logo_bg.gif">
+<p lang="zxx" align="center" style="margin-top: 0.17in; page-break-after: avoid">
+<a href="http://www.kockice.hr"><img src="site_logo.gif"/></a><br/><br/>
+<font face="Arial, sans-serif"><font size="6" style="font-size: 28pt"><b>Stormpack</b></font></font></p>
+<p lang="zxx" style="margin-bottom: 0in">Stormpack is a collection of
+tools and Python libraries allowing you to control EV3 and NXT LEGO
+Mindstorms devices directly from the code on your computer,
+wirelessly via Bluetooth.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">The main component of the
+Stormpack is the Mindcontrol library, a Python 3 module which you can
+import into your code and which contains main classes, functions,
+etc. The pack also includes an executable for the NXT which needs to
+be run in order for it to accept and follow Mindcontrol's
+instructions properly, documentation, and some examples.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">If you are interested, read
+on - all the information you need to download and use Stormpack
+follows on this page, though majority of it is included in the
+download pack itself as well.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h1 lang="zxx" class="western">REQUIREMENTS AND <a href="stormpack.zip">DOWNLOAD</a></h1>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">To use Stormpack, you will
+need:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">1. A Python 3 implementation
+of your choice, which you can download at www.python.org freely.
+Stormpack has been successfully tested on all the versions since 3.2
+onward.</p>
+<p lang="zxx" style="margin-bottom: 0in">2. A 'pyserial' module which
+can be easily installed via pip ('pip install pyserial') or via
+setup.py. This is a native module which deals with virtual serial
+ports used for communication with the Mindstorms devices.</p>
+<p lang="zxx" style="margin-bottom: 0in">3. A computer with a
+Bluetooth capability, either builtin, using a dongle, or some third
+option.</p>
+<p lang="zxx" style="margin-bottom: 0in">4. <a href="stormpack.zip">Stormpack itself</a>. This is
+simply a zip containing the Python modules, the executable for the NXT
+(which is not required for EV3) and some documentation.</p>
+<p lang="zxx" style="margin-bottom: 0in">5. At least one NXT or EV3
+device, though multiple are supported. They can be pure vanilla
+devices, not flashed or modified in any particular way neither with
+custom OS.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">So if you have collected
+all, you are ready for the...</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h1 lang="zxx" class="western">INSTALLATION</h1>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">As with most Python modules,
+installation is no more complex than copying files.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">1. Copy the mindctrl.py file
+to location(s) where your Python scripts are located, so that it can
+be found when imported in the code, via 'import mindctrl'. (If this
+is unclear to you, we suggest you first do some basic introduction to
+Python.)</p>
+<p lang="zxx" style="margin-bottom: 0in">2. If you use NXT devices,
+i.e. smart bricks, copy the mindctrl.rxe file to each of them, or at
+least each of those you intend to use. You can do that using the
+NXT-G software you got with your set, or via some alternate methods
+if you prefer so. This is not needed for EV3 bricks.</p>
+<p lang="zxx" style="margin-bottom: 0in">3. Possibly the most complex
+step is to establish the virtual serial ports to your devices. Turn
+your computer and devices on, then perform their Bluetooth pairing
+process (either from the bricks or the computer, though it seems to
+be more reliable when done from a computer) from your Bluetooth
+device settings. When done, go to advanced settings and create a port
+for each of your devices. At least on Windows, the process is as
+follows.</p>
+<p lang="zxx" style="margin-bottom: 0in">Click on the Bluetooth icon
+in your tray, and choose Open Settings. Then click on the COM Ports
+tab. At least one COM port should be assigned to each device &#8213;
+note its number. If more than one port is assigned for a device, note
+its Outgoing COM port number. Each device should have its Outgoing
+COM. If you are not using Windows, please find a relevant similar
+operation that applies to your OS.</p>
+<p lang="zxx" style="margin-bottom: 0in">4. Start the mindctrl
+executable on your NXT devices in order to get them to start
+listening to the commands from the computer. You will have to perform
+this step every time you want it to start listening.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h1 lang="zxx" class="western">USAGE</h1>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">All the commands for the
+Mindstorms devices are based around the two main classes, EV3 and
+NXT. You need to create an object for each of your devices
+separately, and can subsequently use it to pass commands to them.
+Apart from the explicite exceptions, all the commands for both types
+of devices are synchronized, i.e. the script is suspended while the
+command is being executed and the flow is resumed only when it has
+been completed and confirmed as such by the device. In other words,
+should you pass two motor instructions one after the another, you can
+rely on the system to wait for the first one to finish completely
+before the second one is called.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Creating the instances</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">To create an object
+corresponding to a physical device, you just need to supply the
+aforementioned serial port number (COM number) it is connected to.
+For that particular example, you would need to use the following:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">import mindctrl</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device=mindctrl.EV3('COM8')</p>
+<p lang="zxx" style="margin-bottom: 0in">nxtdevice=mindctrl.NXT('COM4')</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">That should create two
+objects, ev3device and nxtdevice, to which you can subsequently pass
+commands. You need to create this sort of object for each Mindstorms
+device you intend to use.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Absolute motor rotation</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">The most frequent job for
+MindControl will be to rotate the motors. You need to use the rotate
+function for that purpose:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">rotate(motor1, motor2,
+motor3, motor4, speed)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">You can use it for both NXT
+and the EV3, e.g.:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.rotate(90, None,
+-360, speed=75)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">The motors correspond to
+their parameter position. This command rotates the first motor 90&deg;
+forward and the third motor one full turn reverse (one full turn is
+360&deg;), both with a speed of 75. The speed is simply percentage of
+full speed, which is default. If you do not want to rotate a motor,
+pass a zero, or the Python object None. Missing motors are filled up
+automatically. Note that, for the NXT device, you can specify only
+the three motors, as it only has three output ports.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">If you specify more than one
+motor with a single call of rotate, it will rotate these motors
+sequentially, i.e. one after another by default. However, if you are
+using the EV3, you have the option of rotating them all at once,
+proportionally, by setting the simult parameter as True. For example:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.rotate(180, -360,
+720, 90, speed=80, simult=True)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">This command rotates all
+four motors simultaneously &#8213; the first motor makes half a turn
+forward while the second makes a full turn in reverse, while the
+third makes full two turns, etc. The speed, if specified, in this
+case always applies to the motor making the largest rotation
+(greatest absolute angle), while the other speeds are calculated
+proportionally for them all to finish at the exact same moment, or at
+least, as closely to the same moment as possible. Note that the
+simult parameter is available only for the EV3.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Relative motor rotation</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Apart from the absolute
+rotations specified by rotate, you can command relative rotations as
+well, in a similar fashion. The basic idea is that all the motors
+begin in the origin, i.e. zero position, and the relative rotation
+commands rotate the motors relative to the origin and their starting
+position. This is done by using the rotateto function:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">rotateto(motor1, motor2,
+motor3, motor4, speed)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">It is somewhat clearer with
+an example:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.rotateto(50, -100)</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.rotateto(-20,
+-110)</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.rotateto(0, 0)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">So, the first command
+rotates the first motor 50&deg; forward and the second 100&deg; in
+reverse, just like the absolute rotation command. However, the second
+one rotates the first motor 70&deg; reverse to &quot;reach&quot; -20,
+and the second motor 10&deg; backwards, to the -110&deg; from the
+origin.</p>
+<p lang="zxx" style="margin-bottom: 0in">The third call rotates the
+first motor 20&deg; forward and the second 110&deg; forward, in order
+to return the motor positions to those from the start.</p>
+<p lang="zxx" style="margin-bottom: 0in">The origin is always 0 for
+all the motors upon the start of the script. Again, only three motors
+are available for the NXT, and on EV3 you can additionally specify
+simult parameter to be True if you want all the movements done
+simultaneously.</p>
+<p lang="zxx" style="margin-bottom: 0in">Unsynchronized motor spin
+(EV3 only)</p>
+<p lang="zxx" style="margin-bottom: 0in">Occasionally you will need
+the motors to just start spinning and proceed so until some other
+instruction comes up. The spin command does just that:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">spin(speed1, speed2, speed3,
+speed4)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">It lets you specify the
+speed (which may be negative as well for the reverse direction) for
+each motor. Passing zero as a parameter stops the motor, and None
+does not change anything about it. For example:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.spin(-50, 100,
+None, 20)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">This command spins the first
+motor with half speed reverse, the second with full speed forward,
+and the fourth with 20% speed forward. The motors keep turning and
+the control is passed back to the Python script, i.e. as said in the
+title, this function is not synchronized.</p>
+<p lang="zxx" style="margin-bottom: 0in">Typical usage for
+unsynchronized spin is i.e. letting a car drive and then checking
+some sensor value until it needs to stop. This is much more
+convenient than turning the motor a little, checking the sensor,
+turning some more, etc. which would cause a rather shaky movement.</p>
+<p lang="zxx" style="margin-bottom: 0in">You can change the speeds of
+these motors anytime by reinvoking spin with new parameters. To stop
+them all, you can use the stop function:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.stop()</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">This stops all the motors
+and is actually equivalent to ev3device.spin(0, 0, 0, 0).</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Reading sensor value (EV3 only)</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">If you are using EV3
+sensors, you can use the sensor function to read their measured
+values. Its syntax requires only one parameter:</p>
+<p lang="zxx" style="margin-bottom: 0in">sensor(port)</p>
+<p lang="zxx" style="margin-bottom: 0in">This parameter, ranging from
+1 to 4, specifies the EV3 hardware input port the sensor in question
+is connected to. It returns a number which is the value measured by
+the sensor. With the standard sensors, it works as follows (though it
+should work similarly for any other sensor as well):</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Touch sensor returns either
+0 if not pressed, and a nonzero value if pressed.</p>
+<p lang="zxx" style="margin-bottom: 0in">Infrared sensor and
+ultrasonic sensor return the estimated distance to the target in
+front of them.</p>
+<p lang="zxx" style="margin-bottom: 0in">Light sensor returns the
+percentage amount (0-100) of the reflected light, though more about
+it later.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Apart from the EV3 sensors,
+you can use the NXT sensors connected to the EV3 device in the same
+way. An example:</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.sensor(1) returns
+60 if the target is 60 cm ahead of the infrared sensor connected to
+the EV3 in the port 1.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Reading light sensor value (EV3 only)</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Since the light sensor can
+work in several modes, it has the honour of having its own function
+sensor_light. Apart from the port number, it also requires an
+additional parameter that specifies the mode it should be running in:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.sensor_light(2,
+'COLOURS')</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">This commands the light
+sensor connected to the EV3 port number 2 to switch to the colour
+scanning mode and return the measured value.</p>
+<p lang="zxx" style="margin-bottom: 0in">There are three modes that
+can be specified, either by a string as shown in the above example,
+or with an integer:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">0 or 'REFLECT': measure the
+reflected light. Returns the percentage of reflected light (0-100).</p>
+<p lang="zxx" style="margin-bottom: 0in">1 or 'AMBIENT': measure the
+ambient light level, and return it as a percentage (0-100).</p>
+<p lang="zxx" style="margin-bottom: 0in">2 or 'COLOURS': measure the
+colour the sensor points to and return its code along with its name.
+In this mode, the sensor always returns a tuple, i.e. a pair of a
+colour number and the name of the colour. The colour codes are: 0 -
+not available (nothing measured), 1 - black, 2 - blue, 3 - green, 4 -
+yellow, 5 - red, 6 - white and 7 - brown. I.e. if the sensor points
+at a blue surface, calling the function returns (2, 'BLUE').</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Note that the sensor needs
+to be rather close to the measured object in the colour detection
+mode.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Playing tones (EV3 only)</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">You can use the EV3 to play
+a tone with a specified frequency, duration and volume:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">tone(frequency, volume,
+duration)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Frequency is specified in
+Hertz (Hz), the volume in percentage (1-100), and the duration in
+milliseconds, i.e. 1000 corresponds to a duration of one second. An
+example:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.tone(440, 75, 500)</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">This command plays an A note
+(440 Hz) at 75% loudness for 500 milliseconds (half a second).</p>
+<p lang="zxx" style="margin-bottom: 0in">Starting a MindCtrl program
+(NXT only)</p>
+<p lang="zxx" style="margin-bottom: 0in">In order to perform the
+functions correctly, the MindControl executable needs to keep running
+on the NXT device. You can either do it manually by choosing it in
+the appropriate menu on the device, or with a script, using a start
+function. It has no parameters:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">nxtdevice.start()</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">This is equivalent to you
+starting it manually. If you are going to use this function, make
+sure it is started before any movements are sent to that particular
+NXT device.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Disconnecting a device</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Although a very pragmatic
+programmer may argue that it may not be required, a proper purits
+will always insist that the connection to the device be terminated
+once it is not required anymore. You need to terminate it by using
+the disconnect function without parameters, for example:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3device.disconnect()</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">After this command you
+cannot call (at least not successfully) any functions on ev3device
+unless you reinstance it under the same name. Keep in mind that you
+need to disconnect every device independently!</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Logging</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">By default, all the
+instructions and the communication happening between the computer and
+the Mindstorms devices is logged both to the console and the log file
+mindctrl.log. These are actually controlled by the module-level
+variables logtofile and logtoconsole. Therefore, if you want to
+disable logging to console, use:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">mindctrl.logtoconsole=False</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Likewise, for the file:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">mindctrl.logtofile=False</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">You can, of course, set them
+back to True anytime to resume logging to the console or the file.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h2 lang="zxx" class="western">Delays after movements</h2>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Sometimes you may prefer to
+have brief delays after each motor movement, either for communication
+or mechanical reasons. You can set this by using a module-level
+variable betweendelay. It specified the number of seconds to wait
+after each movement has been done. It can be a floating-point number
+as well as an integer. For example, should you desire to have a
+quarter of a second pause after each moments, use:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">mindctrl.betweendelay=250</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">This can be readjusted
+anytime in your Python script.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h1 lang="zxx" class="western">QUICK REFERENCE</h1>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">If you are an experienced
+Pythonist or just want a handy reference of the stuff we just went
+through, this should help. Note that the bold items apply only to EV3
+devices and are not available for NXT.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Classes:
+mindctrl.EV3(conn='COM8') and mindctrl.NXT(conn='COM4')</p>
+<p lang="zxx" style="margin-bottom: 0in">Their functions:</p>
+<p lang="zxx" style="margin-bottom: 0in">rotate(motor1, motor2,
+motor3, motor4, speed=100, simult=False) - rotate given motor angles
+with specified speed, simultaneously if simult is True</p>
+<p lang="zxx" style="margin-bottom: 0in">rotateto(motor1, motor2,
+motor3, motor4, speed=100, simult=False) - rotate motors to their
+given relative position, with specified speed and simultaneously if
+simult is True</p>
+<p lang="zxx" style="margin-bottom: 0in">spin(speed1, speed2, speed3,
+speed4) - rotate each motor continuously (not synchronized) with a
+given speed</p>
+<p lang="zxx" style="margin-bottom: 0in">stop() - stop all motors</p>
+<p lang="zxx" style="margin-bottom: 0in">sensor(port) - read the
+measured value from the sensor connected to the given port</p>
+<p lang="zxx" style="margin-bottom: 0in">sensor_light(port, mode) -
+read the measured value from the light sensor connected to the given
+port, in mode 0 (reflection), 1 (ambient) or 2 (colour detector)</p>
+<p lang="zxx" style="margin-bottom: 0in">tone(frequency, volume,
+duration) - play a tone of a given frequency, with a given volume in
+percentage, for a given duration in seconds</p>
+<p lang="zxx" style="margin-bottom: 0in">start() - start the
+MindControl client program (NXT only)</p>
+<p lang="zxx" style="margin-bottom: 0in">disconnect() - disconnect a
+device</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">MindControl module
+variables:</p>
+<p lang="zxx" style="margin-bottom: 0in">mindctrl.logtofile - a
+boolean value specifying whether actions are logged to a file
+mindctrl.log</p>
+<p lang="zxx" style="margin-bottom: 0in">mindctrl.logtoconsole - a
+boolean value specifying whether actions are logged to the console</p>
+<p lang="zxx" style="margin-bottom: 0in">mindctrl.betweendelay -
+floating number of seconds of a pause to occur after each motor
+movement</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h1 lang="zxx" class="western">EXAMPLE PROGRAMS</h1>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Finally, a couple of sample
+scripts should clarify everything. You may want to copy and paste
+them into your own projects after you have finished the installation.</p>
+<p lang="zxx" style="margin-bottom: 0in">Rotating first two motors on
+both devices 90&deg; forward, sequentially:</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">import mindctrl</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3=mindctrl.EV3('COM8')</p>
+<p lang="zxx" style="margin-bottom: 0in">nxt=mindctrl.NXT('COM4')</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3.rotate(90, 90)</p>
+<p lang="zxx" style="margin-bottom: 0in">nxt.rotate(90, 90)</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3.disconnect()</p>
+<p lang="zxx" style="margin-bottom: 0in">nxt.disconnect()</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Continuously print the color
+under the light sensor connected to the EV3 port 1, until the touch
+sensor at port 2 is pressed:</p>
+<p lang="zxx" style="margin-bottom: 0in">import mindctrl</p>
+<p lang="zxx" style="margin-bottom: 0in">mindctrl.logtoconsole=False</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3=mindctrl.EV3('COM8')</p>
+<p lang="zxx" style="margin-bottom: 0in">while not ev3.sensor(2):</p>
+<p lang="zxx" style="margin-bottom: 0in">print(ev3.sensor_light(1,
+2)[1])</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3.disconnect()</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Turn all four motors with
+full speed until the infrared sensor connected to input port 4
+detects proximity closer than 30. Then stop all the motors and sound
+a tone:</p>
+<p lang="zxx" style="margin-bottom: 0in">import mindctrl</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3=mindctrl.EV3('COM8')</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3.spin(100, 100, 100, 100)</p>
+<p lang="zxx" style="margin-bottom: 0in">while not ev3.sensor(4)&lt;30:
+pass</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3.stop()</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3.tone(250,30,700)</p>
+<p lang="zxx" style="margin-bottom: 0in">ev3.disconnect()</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h1 lang="zxx" class="western">USAGE NOTES</h1>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">If the connection between
+the computer and the listening Mindstorms devices has been inactive
+for a while (i.e. no traffic), they may disconnect. They should
+however automatically reconnect upon new instructions and
+communication, but this may incur very brief (a second or two) delay.
+Try not, therefore, to rely on time-critical movements after long
+periods of inactivity.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in"> NXT and EV3 are somewhat
+different in the way they handle rotation at given angles. NXT tends
+to rotate the desired angle, overdo a bit, then return, correct
+again, etc. until the output wheel or axle comes to rest at the
+desired position. The EV3 is much more controlled, without this shaky
+movement at its end position. Keep this in mind if using both devices
+while designing your machine. Use the EV3 where more accurate and
+homogenous movements are important.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Try not to base your scripts
+around the instructions taking a consistent amount of time. Due to
+many layers and processes each of them starts, and their dependency
+on external factors, their duration may be unpredictable. If you need
+accurately timed processes (e.g. building a clock), I'd suggest you
+keep a master timer in your Python script and use it as a sole
+reference. Standard module time can help you a lot here.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">As long as they do not
+interfere with each other's motors or sensors, calling functions in a
+multithreaded program should work fine. However, each thread should
+use the same instance of the EV3 or NXT object, instead of each
+thread opening its own.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Daisy-chaining the EV3
+devices is not implemented as such &#8213; you should connect to each
+EV3 device via Bluetooth independently instead.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Letting motors perform very
+small movements (only a couple of degrees) sometimes do not produce
+any real results. Only after a few small movements are aggregated to
+something more (say, 10&deg;), will the motor indeed rotate. If you
+need very small rotations, I'd rather suggest gearing the motor down.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h1 lang="zxx" class="western">EXTRAS</h1>
+<p lang="zxx">Stormpack includes some extra functions you can use
+and/or combine with Mindcontrol.</p>
+<h2 lang="zxx" class="western">Melody generator</h2>
+<p lang="zxx">Use the 'melody' function present in the Mindcontrol
+library to convert human-readable music into lists of parameters
+suitable for playing by the tone generator tone(). Specifically, a
+string with music gets converted to a list of lists including
+frequency (in Hz), duration (in sec) and volume (in percent) of each
+note in succession. This list of lists is then returned.</p>
+<p lang="zxx">The following elements are available for those strings:</p>
+<ul>
+	<li/>
+<p lang="zxx">The tone itself, from 'c' to 'h'. You can use #
+	for sharp, e.g. d#</p>
+	<li/>
+<p lang="zxx">Octaves next to notes. c2 plays it in second
+	octave as well as all other notes until a new octave is specified</p>
+	<li/>
+<p lang="zxx">Lengths of notes, e.g. c#/4 plays c sharp quaver
+	(quarter note), e/3 plays a triplet</p>
+	<li/>
+<p lang="zxx">PPP, PP, P, MP, MF, F, FF, FFF - loudness from
+	this point on</p>
+	<li/>
+<p lang="zxx">r/1, r/2, r/4 - rests of specified length</p>
+	<li/>
+<p lang="zxx">T123 - example of a tempo in BPM from now on</p>
+</ul>
+<p lang="zxx">Separate all notes with spaces, e.g. melody('T120 MF
+c3/2 g/2 d/2 a/2 FF e/1')</p>
+<h2 lang="zxx" class="western">Simultaneous movement step splitting</h2>
+<p lang="zxx">Rotating two motors simultaneously often is not precise
+enough, down to a single degree. It is occasionally feasible to split
+such simultaneous movements into plenty of small movements
+degree-by-degree, and that is what the function getstepper does.</p>
+<p lang="zxx">Supply it with a list of desired total movements, e.g.
+(20,30,15), and it returns a list of lists, each sub-list containing
+a single step to be done by each of the specified motors. It is
+always rounded down to 1. The sum of all movements of course
+corresponds to the initial values.</p>
+<p lang="zxx">Note that this may look good on paper, yet the motors
+are reluctant to perform such small movements often, 1 degree changes
+are often ignored until the total desired movement rises above a
+given threshold. Negative numbers may be used as well.</p>
+<h2 lang="zxx" class="western">Stewart platform calculations</h2>
+<p lang="zxx">Another function in the auxiliary stewart.py allows you
+to calculate movements for a Stewart platform. This may be used
+independently from Stormpack or LEGO in general.</p>
+<p lang="zxx">The imported module contains the following parameters
+and its defaults:</p>
+<p lang="zxx">Actuator root distance from center on the base [mm]:
+stewart.ACT_ROOT_DISTFC = 120</p>
+<p lang="zxx">Distance between adjacent actuator roots on the base
+[mm]: stewart.ACT_ROOT_ADJDIST = 24</p>
+<p lang="zxx">Actuator target distance from center in the platform
+[mm]: stewart.ACT_TGT_DISTFC = 100</p>
+<p lang="zxx">Distance between adjacent actuator targets in the
+platform [mm]: stewart.ACT_TGT_ADJDIST = 20</p>
+<p lang="zxx">Vertical offset of the platform, i.e. how much it is
+higher than the hypothetical target plane between actuator targets
+[mm]: stewart.TGT_VERT_OFFSET = 16</p>
+<p lang="zxx">Maximum extents of actuators, used for the limiter:
+stewart.ACTUATOR_MIN=80; stewart.ACTUATOR_MAX=140</p>
+<p lang="zxx">Once these parameters are set,
+stewart(x,y,z,az,alpha,beta,limiter) can be called.</p>
+<ul>
+	<li/>
+<p lang="zxx">x, y, z are the target coordinates for the
+	platform center</p>
+	<li/>
+<p lang="zxx">az is the azimuth of the platform (vertical
+	axis)</p>
+	<li/>
+<p lang="zxx">alpha, beta are side angles in the X and Y axes</p>
+	<li/>
+<p lang="zxx">limiter, if enabled, returns error if any
+	actuator length exceeds values given by ACTUATOR_MIN and
+	ACTUATOR_MAX. See below.</p>
+</ul>
+<p lang="zxx">A list with 6 required lengths of the actuators is
+provided, to obtain the given position. See more in the module
+itself.</p>
+<p lang="zxx">Further notes:</p>
+<p lang="zxx">1) The base is always at the height zero, and the
+zeroth actuator is exactly right from it, i.e. only moves positive in
+X axis from the centerpoint.</p>
+<p lang="zxx">2) Assume its adjacent root is closer to it, and they
+are spread around in positive direction, i.e. Y negative from the
+first root.</p>
+<p lang="zxx">3) The platform is always above the base.</p>
+<p lang="zxx">4) Return values can always be positive floats, or
+zero, in millimeters.</p>
+<p lang="zxx">5) In the submitted values, X-Y-Z displacements are in
+millimeters, and the azimuth, alpha and beta are in degrees. All
+values are floats with both positive and negative values.</p>
+<p lang="zxx">6) Assume that the 0,0,0 X-Y-Z value of the platform is
+actually when it has the same center as the frame, i.e. they are
+right within each other. Any height would need to have the Z value
+positive.</p>
+<p lang="zxx">7) Base is always horizontal in the Z plane, i.e. all
+root points have the Z (height) value of 0.</p>
+<p lang="zxx">8) If limiter is enabled, if any of the required
+calculated lengths of the actuators is beyond set extents, the
+function returns None (as an error) instead of a 6-item float list.</p><br/>
+<h1 lang="zxx" class="western">LEGAL</h1>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Stormpack is completely free
+for anyone to use. You are free to use it, distribute it as long as
+this documentation is kept intact, and proper credit given to LEGO
+user group KOCKICE (the maintaining organisation behind Stormpack).
+Also, by using it you accept that neither KOCKICE nor anyone else but
+you is responsible for any possible damage that may arise from the
+usage of Stormpack or any of its components, in any way. In plain
+English: don't expect troubles, but still - use it solely at your own
+risk.</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Stormpack neither any of its
+components or project using it may be sold under any circumstances.
+For exceptions (i.e. commercial projects making profit), please
+contact KOCKICE (contact info at www.kockice.hr).</p>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<h1 lang="zxx" class="western">FINAL NOTES</h1>
+<p lang="zxx" style="margin-bottom: 0in"><br/>
+
+</p>
+<p lang="zxx" style="margin-bottom: 0in">Stormpack is more or less
+intended to be a living product. Therefore, the versions you find for
+download may be a step or two ahead of what the documentation says.
+This is, they say, normal; we will always strive for the new versions
+always to be backward compatible with the previous ones, but there
+may be new functionalities that arise in the code and are not yet
+fully covered by the documentation. However, we keep them commented
+in the code, so if you are familiar with Python, you will easily find
+more about them in the docstrings. Have fun!</p>
+</body>
+</html>
